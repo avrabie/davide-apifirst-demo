@@ -1,0 +1,155 @@
+openapi: 3.0.2
+info:
+  contact:
+    email: davide.listello@gmail.com
+  description: Book Davide demo example
+  license:
+    name: GNU GPLv3
+    url: https://www.gnu.org/licenses/gpl.txt
+  title: Davide Demo
+  version: 1.0.1
+servers:
+- url: http://localhost:8080
+tags:
+- description: this is the demo description
+  name: demo
+paths:
+  /books:
+    description: The REST endpoint/path used to list and create zero or more `book`
+      entities.  This path contains a `GET` and `POST` operation to perform the list
+      and create tasks, respectively.
+    get:
+      description: Gets a list of all `book` entities.
+      operationId: getbooks
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/book'
+                type: array
+          description: Successful response - returns an array of `book` entities.
+      summary: List All books
+      x-accepts: application/json
+    post:
+      description: Creates a new instance of a `book`.
+      operationId: createbook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/book'
+        description: A new `book` to be created.
+        required: true
+      responses:
+        "201":
+          description: Successful response.
+      summary: Create a book
+      x-contentType: application/json
+      x-accepts: application/json
+    summary: Path used to manage the list of books.
+  /books/{bookId}:
+    delete:
+      description: Deletes an existing `book`.
+      operationId: deletebook
+      parameters:
+      - description: A unique identifier for a `book`.
+        explode: false
+        in: path
+        name: bookId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Successful response.
+      summary: Delete a book
+      x-accepts: application/json
+    description: The REST endpoint/path used to get, update, and delete single instances
+      of an `book`.  This path contains `GET`, `PUT`, and `DELETE` operations used
+      to perform the get, update, and delete tasks, respectively.
+    get:
+      description: Gets the details of a single instance of a `book`.
+      operationId: getbook
+      parameters:
+      - description: A unique identifier for a `book`.
+        explode: false
+        in: path
+        name: bookId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/book'
+          description: Successful response - returns a single `book`.
+        "404":
+          description: Book with the id specified not found
+      summary: Get a book
+      x-accepts: application/json
+    put:
+      description: Updates an existing `book`.
+      operationId: updatebook
+      parameters:
+      - description: A unique identifier for a `book`.
+        explode: false
+        in: path
+        name: bookId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/book'
+        description: Updated `book` information.
+        required: true
+      responses:
+        "202":
+          description: Successful response.
+      summary: Update a book
+      x-contentType: application/json
+      x-accepts: application/json
+    summary: Path used to manage a single book.
+components:
+  schemas:
+    book:
+      description: This is our book main domain that will be used in our microservice
+      example:
+        isbn: "12345"
+        title: My title
+        author: My Authors
+        cost: 45.5
+        isPublished: true
+        publishDate: 2013-10-02T10:15:10.513Z
+      properties:
+        isbn:
+          type: string
+        title:
+          type: string
+        author:
+          type: string
+        cost:
+          format: double
+          type: number
+        isPublished:
+          type: boolean
+        publishDate:
+          format: date-time
+          type: string
+      title: Root Type for book
+      type: object
+  securitySchemes:
+    my-security:
+      description: 'This is the type of security '
+      scheme: bearer
+      type: http
+

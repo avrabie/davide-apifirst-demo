@@ -1,0 +1,140 @@
+openapi: 3.0.2
+info:
+  title: Davide Demo
+  version: 1.0.1
+  description: Book Davide demo example
+  contact:
+    email: davide.listello@gmail.com
+  license:
+    name: GNU GPLv3
+    url: 'https://www.gnu.org/licenses/gpl.txt'
+servers:
+  -
+    url: 'http://localhost:8080'
+    description: ''
+paths:
+  /books:
+    summary: Path used to manage the list of books.
+    description: >-
+      The REST endpoint/path used to list and create zero or more `book` entities.  This path contains a
+      `GET` and `POST` operation to perform the list and create tasks, respectively.
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/book'
+          description: Successful response - returns an array of `book` entities.
+      operationId: getbooks
+      summary: List All books
+      description: Gets a list of all `book` entities.
+    post:
+      requestBody:
+        description: A new `book` to be created.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/book'
+        required: true
+      responses:
+        '201':
+          description: Successful response.
+      operationId: createbook
+      summary: Create a book
+      description: Creates a new instance of a `book`.
+  '/books/{bookId}':
+    summary: Path used to manage a single book.
+    description: >-
+      The REST endpoint/path used to get, update, and delete single instances of an `book`.  This path
+      contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks,
+      respectively.
+    get:
+      parameters:
+        -
+          name: bookId
+          description: A unique identifier for a `book`.
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/book'
+          description: Successful response - returns a single `book`.
+        '404':
+          description: Book with the id specified not found
+      operationId: getbook
+      summary: Get a book
+      description: Gets the details of a single instance of a `book`.
+    put:
+      requestBody:
+        description: Updated `book` information.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/book'
+        required: true
+      responses:
+        '202':
+          description: Successful response.
+      operationId: updatebook
+      summary: Update a book
+      description: Updates an existing `book`.
+    delete:
+      responses:
+        '204':
+          description: Successful response.
+      operationId: deletebook
+      summary: Delete a book
+      description: Deletes an existing `book`.
+    parameters:
+      -
+        name: bookId
+        description: A unique identifier for a `book`.
+        schema:
+          type: string
+        in: path
+        required: true
+components:
+  schemas:
+    book:
+      title: Root Type for book
+      description: This is our book main domain that will be used in our microservice
+      type: object
+      properties:
+        isbn:
+          type: string
+        title:
+          type: string
+        author:
+          type: string
+        cost:
+          format: double
+          type: number
+        isPublished:
+          type: boolean
+        publishDate:
+          format: date-time
+          type: string
+      example:
+        isbn: '12345'
+        title: My title
+        author: My Authors
+        cost: 45.5
+        isPublished: true
+        publishDate: '2013-10-02T10:15:10.513Z'
+  securitySchemes:
+    my-security:
+      scheme: bearer
+      type: http
+      description: 'This is the type of security '
+tags:
+  -
+    name: demo
+    description: this is the demo description
