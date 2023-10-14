@@ -20,9 +20,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'io.swagger.parser.v3:swagger-parser-v3:2.1.16'
     implementation 'org.openapitools:jackson-databind-nullable:0.2.4'
-//    implementation 'io.swagger:swagger-generator:3.0.0-rc1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
 
 tasks.named('test') {
