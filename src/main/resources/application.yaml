@@ -1,4 +1,14 @@
+spring:
+  application:
+    name: davide-service
+  config:
+    import: "optional:configserver:"
+    cloud:
+      config:
+        uri: http://localhost:8888
+
 server:
   port: 9001
+
 polar:
-  message: Whatever
+  message: Whatever from application.yaml
