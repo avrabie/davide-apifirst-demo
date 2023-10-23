@@ -6,7 +6,9 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
+import org.springframework.data.relational.core.mapping.Table;
 
+@Table("book")
 public record Book(
 
         @Id
@@ -38,6 +40,13 @@ public record Book(
     ) {
         return new Book(
                 null, isbn, title, author, price, 0
+        );
+    }
+
+    public static Book of(io.adiwave.apifirst.davidedemo.model.Book book) {
+
+        return new Book(
+                null, book.getIsbn(), book.getTitle(), book.getAuthor(), book.getCost(), 0
         );
     }
 }
