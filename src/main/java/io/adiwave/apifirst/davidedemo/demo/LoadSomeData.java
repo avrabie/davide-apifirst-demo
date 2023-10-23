@@ -2,7 +2,6 @@ package io.adiwave.apifirst.davidedemo.demo;
 
 import io.adiwave.apifirst.davidedemo.repository.CustomerRepository;
 import lombok.extern.java.Log;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;

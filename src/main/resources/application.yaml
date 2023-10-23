@@ -6,9 +6,26 @@ spring:
     cloud:
       config:
         uri: http://localhost:8888
+        fail-fast: true
+        retry:
+          max-attempts: 10
+          max-interval: 3000
+          multiplier: 1.1
+          initial-interval: 1000
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/polardb_catalog
+    username: user
+    password: password
+
 
 server:
   port: 9001
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh,health,info
 
 polar:
   message: Whatever from application.yaml

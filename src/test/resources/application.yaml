@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: davide-service
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh,health,info
+
+polar:
+  message: Whatever from application.yaml
