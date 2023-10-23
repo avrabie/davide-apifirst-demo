@@ -47,7 +47,13 @@ public class LoadSomeData {
 
         return (args) -> {
             // save a few customers
-            repository.saveAll(Arrays.asList(Customer.builder().firstName("Jack").lastName("Bauer").build(), Customer.builder().firstName("Chloe").lastName("O'Brian").build(), Customer.builder().firstName("Kim").lastName("Bauer").build(), Customer.builder().firstName("David").lastName("Palmer").build(), Customer.builder().firstName("Michelle").lastName("Dessler").build())).blockLast(Duration.ofSeconds(10));
+            repository.saveAll(Arrays.asList(
+                            Customer.builder().firstName("Jack").lastName("Bauer").build(),
+                            Customer.builder().firstName("Chloe").lastName("O'Brian").build(),
+                            Customer.builder().firstName("Kim").lastName("Bauer").build(),
+                            Customer.builder().firstName("David").lastName("Palmer").build(),
+                            Customer.builder().firstName("Michelle").lastName("Dessler").build()))
+                    .blockLast(Duration.ofSeconds(10));
 
             // fetch all customers
             log.info("Customers found with findAll():");
