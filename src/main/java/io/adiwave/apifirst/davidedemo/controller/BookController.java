@@ -22,14 +22,8 @@ public class BookController implements BooksApi {
 
     @Override
     public Mono<ResponseEntity<Void>> createbook(Mono<Book> book, ServerWebExchange exchange) {
-        Mono<String> responseBookId = bookService.createbook(book)
-                .onErrorReturn("BookNotCreated");
-
-
-        return responseBookId.map(bookId -> {
-            if (bookId.equals("BookNotCreated")) return ResponseEntity.internalServerError().build(); //.<Void>body(null) also works
-            return ResponseEntity.created(URI.create("/api/v1/book/" + bookId)).build();
-        });
+        Mono<String> responseBookId = bookService.createbook(book);
+        return responseBookId.map(isbn ->  ResponseEntity.created(URI.create("/api/v1/book/" + isbn)).build());
 
     }
 
