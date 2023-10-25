@@ -2,8 +2,6 @@ package io.adiwave.apifirst.davidedemo.model;
 
 import java.net.URI;
 import java.util.Objects;
-
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -25,7 +23,7 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "book", description = "This is our book main domain that will be used in our microservice")
 @JsonTypeName("book")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-13T23:17:04.483100200+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-25T16:45:52.455772400+02:00[Europe/Berlin]")
 public class Book {
 
   private String isbn;

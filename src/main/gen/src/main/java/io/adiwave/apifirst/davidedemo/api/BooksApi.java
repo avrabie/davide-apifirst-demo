@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-13T23:17:04.483100200+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-25T16:45:52.455772400+02:00[Europe/Berlin]")
 @Validated
 @Tag(name = "books", description = "the books API")
 public interface BooksApi {
@@ -46,18 +46,21 @@ public interface BooksApi {
      *
      * @param book A new &#x60;book&#x60; to be created. (required)
      * @return Successful response. (status code 201)
+     *         or Could not create the book. Ex: ISBN is not unique (status code 400)
      */
     @Operation(
         operationId = "createbook",
         summary = "Create a book",
         description = "Creates a new instance of a `book`.",
         responses = {
-            @ApiResponse(responseCode = "201", description = "Successful response.")
+            @ApiResponse(responseCode = "201", description = "Successful response."),
+            @ApiResponse(responseCode = "400", description = "Could not create the book. Ex: ISBN is not unique")
         }
     )
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/books",
+        produces = { "application/json" },
         consumes = { "application/json" }
     )
     default Mono<ResponseEntity<Void>> createbook(
@@ -107,7 +110,7 @@ public interface BooksApi {
      *
      * @param bookId A unique identifier for a &#x60;book&#x60;. (required)
      * @return Successful response - returns a single &#x60;book&#x60;. (status code 200)
-     *         or Book with the id specified not found (status code 404)
+     *         or book not found (status code 404)
      */
     @Operation(
         operationId = "getbook",
@@ -117,7 +120,7 @@ public interface BooksApi {
             @ApiResponse(responseCode = "200", description = "Successful response - returns a single `book`.", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class))
             }),
-            @ApiResponse(responseCode = "404", description = "Book with the id specified not found")
+            @ApiResponse(responseCode = "404", description = "book not found")
         }
     )
     @RequestMapping(

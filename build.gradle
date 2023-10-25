@@ -35,6 +35,8 @@ dependencies {
     implementation 'org.openapitools:jackson-databind-nullable:0.2.4'
     implementation 'org.springframework.retry:spring-retry'
     implementation 'org.postgresql:r2dbc-postgresql:1.0.2.RELEASE'
+    implementation 'io.r2dbc:r2dbc-pool:1.0.1.RELEASE'
+//    implementation 'io.r2dbc:r2dbc-postgresql:0.8.13.RELEASE'
 
     compileOnly 'org.projectlombok:lombok'
 
