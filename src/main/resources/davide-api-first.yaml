@@ -41,7 +41,13 @@ paths:
         required: true
       responses:
         '201':
+          content:
+            application/json: {}
           description: Successful response.
+        '400':
+          content:
+            application/json: {}
+          description: 'Could not create the book. Ex: ISBN is not unique'
       operationId: createbook
       summary: Create a book
       description: Creates a new instance of a `book`.
@@ -68,7 +74,7 @@ paths:
                 $ref: '#/components/schemas/book'
           description: Successful response - returns a single `book`.
         '404':
-          description: Book with the id specified not found
+          description: book not found
       operationId: getbook
       summary: Get a book
       description: Gets the details of a single instance of a `book`.

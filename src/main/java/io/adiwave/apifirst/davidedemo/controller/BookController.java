@@ -3,6 +3,7 @@ package io.adiwave.apifirst.davidedemo.controller;
 import io.adiwave.apifirst.davidedemo.api.BooksApi;
 import io.adiwave.apifirst.davidedemo.model.Book;
 import io.adiwave.apifirst.davidedemo.service.BookService;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
@@ -23,7 +24,10 @@ public class BookController implements BooksApi {
     @Override
     public Mono<ResponseEntity<Void>> createbook(Mono<Book> book, ServerWebExchange exchange) {
         Mono<String> responseBookId = bookService.createbook(book);
-        return responseBookId.map(isbn ->  ResponseEntity.created(URI.create("/api/v1/book/" + isbn)).build());
+        return responseBookId
+                .map(isbn ->  ResponseEntity.created(URI.create("/api/v1/book/" + isbn)).<Void>build())
+                .onErrorReturn(DuplicateKeyException.class, ResponseEntity.badRequest().header("book","Not created due to dublicate key").<Void>build())
+                .onErrorReturn(RuntimeException.class, ResponseEntity.badRequest().header("book","Not created due to some RuntimeException").<Void>build());
 
     }
 
