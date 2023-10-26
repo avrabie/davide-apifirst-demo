@@ -3,3 +3,5 @@
 ## Api Editor
 https://studio.apicur.io/apis/97263/editor
 
+## Liquibase
+`gradle generateChangelog`
