@@ -30,6 +30,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
     implementation 'org.springframework.cloud:spring-cloud-config-client'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation('org.springframework.hateoas:spring-hateoas:2.1.2')
     implementation ('org.springframework.cloud:spring-cloud-starter-bootstrap')
 
     implementation 'io.swagger.parser.v3:swagger-parser-v3:2.1.16'
@@ -78,13 +79,14 @@ openApiGenerate {
     inputSpec.set("$rootDir/src/main/resources/davide-api-first.yaml")
     outputDir.set("$rootDir/src/main/gen")
     apiPackage.set("io.adiwave.apifirst.davidedemo.api")
-    invokerPackage.set("com.example.apifirstgradle1.invoker")
+//    invokerPackage.set("com.example.apifirstgradle1.invoker")
     modelPackage.set("io.adiwave.apifirst.davidedemo.model")
     configOptions.set([
             dateLibrary   : "java17",
             interfaceOnly : "true",
             useSpringBoot3: "true",
             reactive      : "true",
+            hateoas       : "true"
 
     ])
 }
@@ -112,12 +114,16 @@ configurations {
 liquibase {
     activities {
         main {
-            changelogFile "src/main/resources/db/changelog/changelog.sql"
+            changelogFile "src/main/resources/db/changelog/changelog2.sql"
             url 'jdbc:postgresql://localhost:5432/polardb_catalog'
             username 'user'
             password 'password'
         }
     }
+}
+
+void main(Closure closure) {
+
 }
 
 
@@ -137,6 +143,12 @@ liquibase {
 //    }
 //}
 //update.dependsOn(deploy)
-void main(Closure closure) {
 
+tasks.register('iaka') {
+    println "Hello World";
+    File propsFile = new File("src/main/resources/liquibase.properties")
+    Properties properties = new Properties()
+    properties.load(new FileInputStream(propsFile))
+    println properties.getProperty("liquibaseChangeLogFile")
+    println properties.getProperty("spring.application.name")
 }

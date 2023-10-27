@@ -2,14 +2,13 @@ package io.adiwave.apifirst.davidedemo.service;
 
 import io.adiwave.apifirst.davidedemo.model.Book;
 import io.adiwave.apifirst.davidedemo.repository.BookRepository;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
 public class BookService {
 
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
@@ -20,7 +19,6 @@ public class BookService {
 
         return book.map(io.adiwave.apifirst.davidedemo.entity.Book::of)
                 .flatMap(bookRepository::save)
-//                .switchIfEmpty(Mono.error(new RuntimeException("Error while saving book 1")))
                 .log()
                 .map(io.adiwave.apifirst.davidedemo.entity.Book::isbn)
                 .map(isbn -> {
@@ -29,9 +27,31 @@ public class BookService {
                     }
                     return isbn;
                 })
-//                .onErrorResume(DuplicateKeyException.class, e -> Mono.error(new DuplicateKeyException("Error while saving book", e)))
-//                .onErrorResume(ArithmeticException.class, e -> Mono.error(new RuntimeException("Whatever bs exception", e)));
                 .onErrorResume(RuntimeException.class, Mono::error);
+
+    }
+
+    public Mono<Book> updateBook(String isbn, Mono<Book> book) {
+        // TODO: 10/27/2023 consider reafctoring
+
+        Mono<Book> sharedBook = book.share();
+        Mono<io.adiwave.apifirst.davidedemo.entity.Book> dbBook = book
+                .map(book1 -> book1.getIsbn())
+                .flatMap(bookRepository::findByIsbn)
+                .switchIfEmpty(Mono.error(new RuntimeException("Book not found")));
+
+        return Mono.zip(sharedBook, dbBook).map(tuple -> {
+
+            io.adiwave.apifirst.davidedemo.entity.Book book1 = io.adiwave.apifirst.davidedemo.entity.Book.of(
+                    tuple.getT2().id(),
+                    tuple.getT2().isbn(),
+                    tuple.getT1().getTitle(),
+                    tuple.getT1().getAuthor(),
+                    tuple.getT1().getCost(),
+                    tuple.getT2().version());
+            return book1;
+        }).flatMap(bookRepository::save).then(book);
+
 
     }
 }

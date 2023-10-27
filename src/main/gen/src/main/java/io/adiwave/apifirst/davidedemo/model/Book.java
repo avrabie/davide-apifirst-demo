@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.*;
 import jakarta.annotation.Generated;
@@ -23,8 +24,8 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "book", description = "This is our book main domain that will be used in our microservice")
 @JsonTypeName("book")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-25T16:45:52.455772400+02:00[Europe/Berlin]")
-public class Book {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-27T22:28:04.882568+02:00[Europe/Berlin]")
+public class Book extends RepresentationModel<Book>  {
 
   private String isbn;
 
