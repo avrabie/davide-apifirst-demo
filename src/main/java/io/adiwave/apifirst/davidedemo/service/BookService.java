@@ -34,24 +34,33 @@ public class BookService {
     public Mono<Book> updateBook(String isbn, Mono<Book> book) {
         // TODO: 10/27/2023 consider reafctoring
 
-        Mono<Book> sharedBook = book.share();
-        Mono<io.adiwave.apifirst.davidedemo.entity.Book> dbBook = book
-                .map(book1 -> book1.getIsbn())
-                .flatMap(bookRepository::findByIsbn)
-                .switchIfEmpty(Mono.error(new RuntimeException("Book not found")));
+//        Mono<Book> sharedBook = book.share();
+        Mono<io.adiwave.apifirst.davidedemo.entity.Book> byIsbn = bookRepository.findByIsbn(isbn);
 
-        return Mono.zip(sharedBook, dbBook).map(tuple -> {
+//        Mono<io.adiwave.apifirst.davidedemo.entity.Book> dbBook = book
+//                .map(book1 -> book1.getIsbn())
+//                .flatMap(bookRepository::findByIsbn)
+//                .log()
+//                .switchIfEmpty(Mono.error(new RuntimeException("Book not found")));
 
-            io.adiwave.apifirst.davidedemo.entity.Book book1 = io.adiwave.apifirst.davidedemo.entity.Book.of(
-                    tuple.getT2().id(),
-                    tuple.getT2().isbn(),
-                    tuple.getT1().getTitle(),
-                    tuple.getT1().getAuthor(),
-                    tuple.getT1().getCost(),
-                    tuple.getT2().version());
-            return book1;
-        }).flatMap(bookRepository::save).then(book);
+        return Mono.zip(book, byIsbn).map(tuple -> {
+
+                    io.adiwave.apifirst.davidedemo.entity.Book book1 = io.adiwave.apifirst.davidedemo.entity.Book.of(
+                            tuple.getT2().id(),
+                            tuple.getT2().isbn(),
+                            tuple.getT1().getTitle(),
+                            tuple.getT1().getAuthor(),
+                            tuple.getT1().getCost(),
+                            tuple.getT2().version());
+                    return book1;
+                })
+                .flatMap(bookRepository::save)
+                .log()
+                .then(book).log();
+
 
 
     }
+
+
 }

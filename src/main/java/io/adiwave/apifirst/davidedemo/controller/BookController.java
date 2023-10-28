@@ -48,6 +48,15 @@ public class BookController implements BooksApi {
 
     @Override
     public Mono<ResponseEntity<Void>> updatebook(String bookId, Mono<Book> book, ServerWebExchange exchange) {
-        return BooksApi.super.updatebook(bookId, book, exchange);
+        Mono<Book> bookMono = bookService.updateBook(bookId, book);
+        return bookMono
+                .map(book1 -> ResponseEntity.created(URI.create("whatever")).<Void>build());
+//                .onErrorReturn(RuntimeException.class, ResponseEntity.badRequest().header("book","Not updated due to some RuntimeException").<Void>build());
+
+
+
+
+
+//                .onErrorReturn(RuntimeException.class, ResponseEntity.badRequest().header("book","Not updated due to some RuntimeException").<Void>build());
     }
 }
