@@ -9,9 +9,8 @@ info:
     name: GNU GPLv3
     url: 'https://www.gnu.org/licenses/gpl.txt'
 servers:
-  -
-    url: 'http://localhost:8080'
-    description: ''
+  - url: 'http://localhost:9001'
+    description: localhost Dev Env
 paths:
   /books:
     summary: Path used to manage the list of books.
@@ -42,11 +41,11 @@ paths:
       responses:
         '201':
           content:
-            application/json: {}
+            application/json: { }
           description: Successful response.
         '400':
           content:
-            application/json: {}
+            application/json: { }
           description: 'Could not create the book. Ex: ISBN is not unique'
       operationId: createbook
       summary: Create a book
@@ -59,8 +58,7 @@ paths:
       respectively.
     get:
       parameters:
-        -
-          name: bookId
+        - name: bookId
           description: A unique identifier for a `book`.
           schema:
             type: string
@@ -74,7 +72,7 @@ paths:
                 $ref: '#/components/schemas/book'
           description: Successful response - returns a single `book`.
         '404':
-          description: book not found
+          description: Book not found
       operationId: getbook
       summary: Get a book
       description: Gets the details of a single instance of a `book`.
@@ -100,8 +98,7 @@ paths:
       summary: Delete a book
       description: Deletes an existing `book`.
     parameters:
-      -
-        name: bookId
+      - name: bookId
         description: A unique identifier for a `book`.
         schema:
           type: string
@@ -141,6 +138,5 @@ components:
       type: http
       description: 'This is the type of security '
 tags:
-  -
-    name: demo
+  - name: demo
     description: this is the demo description
