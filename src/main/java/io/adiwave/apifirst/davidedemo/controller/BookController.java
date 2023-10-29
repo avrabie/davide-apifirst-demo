@@ -42,6 +42,7 @@ public class BookController implements BooksApi {
 
     @Override
     public Mono<ResponseEntity<Book>> getbook(String bookId, ServerWebExchange exchange) {
+        // TODO: 10/29/2023 to be implemented by @davide
         return BooksApi.super.getbook(bookId, exchange);
     }
 
