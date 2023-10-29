@@ -48,7 +48,8 @@ public class BookService {
                             tuple.getT1().getTitle(),
                             tuple.getT1().getAuthor(),
                             tuple.getT1().getCost(),
-                            tuple.getT2().version());
+                            tuple.getT2().version()
+                    );
                     return book1;
                 })
                 .flatMap(bookRepository::save)
