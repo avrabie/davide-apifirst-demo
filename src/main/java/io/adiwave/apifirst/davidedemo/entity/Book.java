@@ -4,16 +4,15 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table("book")
+import java.time.Instant;
 
+@Table("book")
 public record Book(
 
         @Id
@@ -36,22 +35,28 @@ public record Book(
         @Positive(message = "The book price must be greater than zero.")
         Double price,
 
+        @CreatedDate
+        Instant createdDate,
+        @LastModifiedDate
+        Instant lastModifiedDate,
         @Version
         int version
 
+
 ) {
     public static Book of(
-            String isbn, String title, String author, Double price
+            Long id, String isbn, String title, String author, Double price, int version
     ) {
         return new Book(
-                null, isbn, title, author, price, 0
+                id, isbn, title, author, price, null, null, version
         );
     }
+
 
     public static Book of(io.adiwave.apifirst.davidedemo.model.Book book) {
 
         return new Book(
-                null, book.getIsbn(), book.getTitle(), book.getAuthor(), book.getCost(), 0
+                null, book.getIsbn(), book.getTitle(), book.getAuthor(), book.getCost(), null, null, 0
         );
     }
 

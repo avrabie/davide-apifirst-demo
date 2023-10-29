@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '3.1.4'
     id 'io.spring.dependency-management' version '1.1.3'
     id "org.openapi.generator" version "6.6.0"
+    id "org.liquibase.gradle" version "2.2.0"
 }
 
 group = 'io.adiwave.apifirst'
@@ -29,24 +30,35 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
     implementation 'org.springframework.cloud:spring-cloud-config-client'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    //without this, the SpringBootTest fails
+    implementation('org.springframework.hateoas:spring-hateoas:2.1.2')
     implementation ('org.springframework.cloud:spring-cloud-starter-bootstrap')
+
     implementation 'io.swagger.parser.v3:swagger-parser-v3:2.1.16'
     implementation 'org.openapitools:jackson-databind-nullable:0.2.4'
     implementation 'org.springframework.retry:spring-retry'
+
+    //db
     implementation 'org.postgresql:r2dbc-postgresql:1.0.2.RELEASE'
     implementation 'io.r2dbc:r2dbc-pool:1.0.1.RELEASE'
-//    implementation 'io.r2dbc:r2dbc-postgresql:0.8.13.RELEASE'
+    //liquibase
+    implementation 'org.liquibase:liquibase-core'
+    liquibaseRuntime 'org.postgresql:postgresql:42.2.27'
+    liquibaseRuntime 'org.liquibase:liquibase-core:4.18.0'
+    liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:3.0.2'
+    liquibaseRuntime 'info.picocli:picocli:4.6.1'
+
+    //implementation 'io.r2dbc:r2dbc-postgresql:0.8.13.RELEASE'
 
     compileOnly 'org.projectlombok:lombok'
+
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
     testRuntimeOnly("com.h2database:h2")
     testRuntimeOnly("io.r2dbc:r2dbc-h2")
 
-    annotationProcessor 'org.projectlombok:lombok'
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
 }
 
@@ -67,13 +79,14 @@ openApiGenerate {
     inputSpec.set("$rootDir/src/main/resources/davide-api-first.yaml")
     outputDir.set("$rootDir/src/main/gen")
     apiPackage.set("io.adiwave.apifirst.davidedemo.api")
-    invokerPackage.set("com.example.apifirstgradle1.invoker")
+//    invokerPackage.set("com.example.apifirstgradle1.invoker")
     modelPackage.set("io.adiwave.apifirst.davidedemo.model")
     configOptions.set([
             dateLibrary   : "java17",
             interfaceOnly : "true",
             useSpringBoot3: "true",
             reactive      : "true",
+            hateoas       : "true"
 
     ])
 }
@@ -90,4 +103,52 @@ tasks.register("deleteGeneratedSources") {
     doFirst {
         delete "$rootDir/src/main/gen"
     }
+}
+
+
+configurations {
+//    providedRuntime
+    liquibaseRuntime.extendsFrom runtime
+}
+
+liquibase {
+    activities {
+        main {
+            changelogFile "src/main/resources/db/changelog/changelog2.sql"
+            url 'jdbc:postgresql://localhost:5432/polardb_catalog'
+            username 'user'
+            password 'password'
+        }
+    }
+}
+
+void main(Closure closure) {
+
+}
+
+
+
+//def void main(Closure closure) {}
+//
+//task('deploy changeLog') {
+//    doFirst() {
+//        liquibase {
+//            activities {
+//                main {
+//                    changelog-file System.properties.liquibaseChangeLogFile
+//                    contexts System.properties.liquibaseContexts
+//                }
+//            }
+//        }
+//    }
+//}
+//update.dependsOn(deploy)
+
+tasks.register('iaka') {
+    println "Hello World";
+    File propsFile = new File("src/main/resources/liquibase.properties")
+    Properties properties = new Properties()
+    properties.load(new FileInputStream(propsFile))
+    println properties.getProperty("liquibaseChangeLogFile")
+    println properties.getProperty("spring.application.name")
 }
