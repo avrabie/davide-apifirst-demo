@@ -8,3 +8,6 @@ https://openapi-generator.tech/docs/generators/spring
 
 ## Liquibase
 `gradle generateChangelog`
+
+## ETC Folder
+for local dev, use the etc folder to run docker-compose with postgres 

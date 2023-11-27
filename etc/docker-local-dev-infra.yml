@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+  polar-postgres:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: polardb_catalog
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8181:8080"
