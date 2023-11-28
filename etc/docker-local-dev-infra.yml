@@ -4,6 +4,9 @@ services:
   polar-postgres:
     image: postgres
     restart: always
+    container_name: polar-postgres
+    networks:
+      - catalog-network
     ports:
       - "5432:5432"
     environment:
@@ -11,8 +14,18 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
 
-  adminer:
-    image: adminer
+  catalog-service:
+    image: ghcr.io/avrabie/davide-demo-0.0.1:latest
     restart: always
+    depends_on:
+      - polar-postgres
     ports:
-      - "8181:8080"
+      - "8080:9001"
+    networks:
+        - catalog-network
+    container_name: catalog-service
+
+
+networks:
+  catalog-network:
+    driver: bridge

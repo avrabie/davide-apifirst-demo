@@ -5,7 +5,7 @@ spring:
     import: "optional:configserver:"
     cloud:
       config:
-        uri: http://localhost:8888
+        uri: http://polar-config:8888
         fail-fast: true
         retry:
           max-attempts: 10
@@ -13,12 +13,12 @@ spring:
           multiplier: 1.1
           initial-interval: 1000
   liquibase:
-    url: jdbc:postgresql://localhost:5432/polardb_catalog
+    url: jdbc:postgresql://polar-postgres:5432/polardb_catalog
     user: user
     password: password
     change-log: classpath:/db/changelog/db.changelog-master.sql
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/polardb_catalog
+    url: r2dbc:postgresql://polar-postgres:5432/polardb_catalog
     username: user
     password: password
 
