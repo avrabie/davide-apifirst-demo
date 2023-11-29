@@ -18,4 +18,11 @@ docker rm -fv polar-postgres
  docker exec -t polar-postgres pg_dumpalldocker  -c -U user > dump_iaka.sql
 
 
+
+catalog service
  docker run -p 8080:9001 --net catalog-network --name catalog-service ghcr.io/avrabie/davide-demo-0.0.1:latest
+
+catalog service NEW
+ docker run -d -p 8080:9001 --net catalog-network --name catalog-service ghcr.io/avrabie/catalog-service:latest
+ docker run -d --name polar-postgres --net catalog-network -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=polardb_catalog -p 5432:5432 postgres
+docker run -d -p 8888:8888 --net catalog-network --name catalog-config-server ghcr.io/avrabie/catalog-config-server:latest

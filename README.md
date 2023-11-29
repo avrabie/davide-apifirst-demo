@@ -23,5 +23,5 @@ delete the plain file and run the following command to build the image
 --publishImage 
 -PregistryUrl=ghcr.io 
 -PregistryUsername=avrabie 
--PregistryToken=<your_github_token>`
+-PregistryToken=your_github_token`
 
