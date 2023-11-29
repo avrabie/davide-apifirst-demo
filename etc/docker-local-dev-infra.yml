@@ -17,7 +17,6 @@ services:
   catalog-config-server:
     image: ghcr.io/avrabie/catalog-config-server:latest
     restart: always
-
     ports:
       - "8888:8888"
     networks:
