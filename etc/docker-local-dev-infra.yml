@@ -17,6 +17,8 @@ services:
   catalog-config-server:
     image: ghcr.io/avrabie/catalog-config-server:latest
     restart: always
+    depends_on:
+      - polar-postgres
     ports:
       - "8888:8888"
     networks:
