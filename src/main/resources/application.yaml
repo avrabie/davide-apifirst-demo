@@ -1,17 +1,20 @@
 spring:
+  cloud:
+    config:
+      uri: http://catalog-config-server:8888
   application:
     name: davide-service
   config:
     import: "optional:configserver:"
-    cloud:
-      config:
-        uri: http://catalog-config-server:8888
-        fail-fast: true
-        retry:
-          max-attempts: 10
-          max-interval: 3000
-          multiplier: 1.1
-          initial-interval: 1000
+#    cloud:
+#      config:
+#        uri: http://catalog-config-server:8888
+#        fail-fast: true
+#        retry:
+#          max-attempts: 10
+#          max-interval: 3000
+#          multiplier: 1.1
+#          initial-interval: 1000
   liquibase:
     url: jdbc:postgresql://polar-postgres:5432/polardb_catalog
     user: user
