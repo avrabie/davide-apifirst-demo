@@ -30,7 +30,7 @@ services:
     restart: always
     depends_on:
       - polar-postgres
-      - config-server
+      - catalog-config-server
     ports:
       - "8080:9001"
       - "8001:8001"
