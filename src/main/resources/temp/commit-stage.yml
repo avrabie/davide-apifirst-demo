@@ -45,5 +45,4 @@ jobs:
         run: |
           chmod +x gradlew 
           ./gradlew bootBuildImage \             
-            --imageName 
-            ➥ ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+            --imageName ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
