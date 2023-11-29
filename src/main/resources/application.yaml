@@ -5,7 +5,7 @@ spring:
     import: "optional:configserver:"
     cloud:
       config:
-        uri: http://polar-config:8888
+        uri: http://catalog-config-server:8888
         fail-fast: true
         retry:
           max-attempts: 10

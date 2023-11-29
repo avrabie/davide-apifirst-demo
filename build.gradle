@@ -129,7 +129,7 @@ void main(Closure closure) {
 
 
 
-
+//check readme.md to understand where the properties come from
 bootBuildImage {
     imageName = "${project.name}"
 //    environment = ["BP_JVM_VERSION" : "17.*"]
