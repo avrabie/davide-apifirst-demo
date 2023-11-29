@@ -15,15 +15,19 @@ services:
       POSTGRES_PASSWORD: password
 
   catalog-service:
-    image: ghcr.io/avrabie/davide-demo-0.0.1:latest
+    image: ghcr.io/avrabie/catalog-service:latest
     restart: always
     depends_on:
       - polar-postgres
     ports:
       - "8080:9001"
+      - "8001:8001"
     networks:
         - catalog-network
     container_name: catalog-service
+    environment:
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=8001
 
 
 networks:
