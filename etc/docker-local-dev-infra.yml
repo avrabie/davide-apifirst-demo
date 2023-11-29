@@ -14,11 +14,23 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
 
+  catalog-config-server:
+    image: ghcr.io/avrabie/catalog-config-server:latest
+    restart: always
+
+    ports:
+      - "8888:8888"
+    networks:
+        - catalog-network
+    container_name: config-server
+
+
   catalog-service:
     image: ghcr.io/avrabie/catalog-service:latest
     restart: always
     depends_on:
       - polar-postgres
+      - config-server
     ports:
       - "8080:9001"
       - "8001:8001"
