@@ -129,27 +129,16 @@ void main(Closure closure) {
 
 
 
-//def void main(Closure closure) {}
-//
-//task('deploy changeLog') {
-//    doFirst() {
-//        liquibase {
-//            activities {
-//                main {
-//                    changelog-file System.properties.liquibaseChangeLogFile
-//                    contexts System.properties.liquibaseContexts
-//                }
-//            }
-//        }
-//    }
-//}
-//update.dependsOn(deploy)
 
-tasks.register('iaka') {
-    println "Hello World";
-    File propsFile = new File("src/main/resources/liquibase.properties")
-    Properties properties = new Properties()
-    properties.load(new FileInputStream(propsFile))
-    println properties.getProperty("liquibaseChangeLogFile")
-    println properties.getProperty("spring.application.name")
+bootBuildImage {
+    imageName = "${project.name}"
+//    environment = ["BP_JVM_VERSION" : "17.*"]
+    docker {
+        publishRegistry {
+            username = project.findProperty("registryUsername")
+            password = project.findProperty("registryToken")
+            url = project.findProperty("registryUrl")
+        }
+    }
+
 }
