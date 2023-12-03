@@ -31,7 +31,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh,health,info
+        include: *
 
 polar:
   message: Whatever from application.yaml
