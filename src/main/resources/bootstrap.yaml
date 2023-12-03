@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    config:
+      uri: http://catalog-config-server:8888
+      fail-fast: false
+      retry:
+        max-attempts: 10
+        max-interval: 3000
+        multiplier: 1.2
+        initial-interval: 1000
