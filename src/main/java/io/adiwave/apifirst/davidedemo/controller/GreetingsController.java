@@ -9,7 +9,6 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @ConfigurationProperties(prefix = "polar")
-@Data
 @RefreshScope
 public class GreetingsController {
 
