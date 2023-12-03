@@ -1,14 +1,14 @@
 version: '3.1'
 
 services:
-#  catalog-config-server:
-#    image: ghcr.io/avrabie/catalog-config-server:latest
-#    restart: always
-#    ports:
-#      - "8888:8888"
-#    networks:
-#      - catalog-network
-#    container_name: catalog-config-server
+  catalog-config-server:
+    image: ghcr.io/avrabie/catalog-config-server:latest
+    restart: always
+    ports:
+      - "8888:8888"
+    networks:
+      - catalog-network
+    container_name: catalog-config-server
 
   polar-postgres:
     image: postgres

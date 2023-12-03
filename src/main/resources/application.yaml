@@ -10,7 +10,7 @@ spring:
           initial-interval: 1000
 
   application:
-    name: davide-service
+    name: catalog-service
   config:
     import: "optional:configserver:"
   liquibase:
