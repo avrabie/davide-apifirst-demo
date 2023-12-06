@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-config-server
+  labels:
+      app: catalog-config-server
+spec:
+  selector:
+    matchLabels:
+      app: catalog-config-server
+  template:
+    metadata:
+      labels:
+        app: catalog-config-server
+    spec:
+      containers:
+        - name: catalog-config-server
+          image: ghcr.io/avrabie/catalog-config-server:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8888
+          env:
+            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_URI
+              value: https://github.com/avrabie/config-server-demo01.git
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-config-server
+  labels:
+    app: catalog-config-server
+spec:
+    type: ClusterIP
+    selector:
+        app: catalog-config-server
+    ports:
+        - protocol: TCP
+          port: 8888
+          targetPort: 8888

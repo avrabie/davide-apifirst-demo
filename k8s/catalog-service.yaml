@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-service
+  labels:
+    app: catalog-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog-service
+  template:
+    metadata:
+      labels:
+        app: catalog-service
+    spec:
+      containers:
+        - name: catalog-service
+          image: ghcr.io/avrabie/catalog-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9001
+          env:
+            - name: BPL_DEBUG_ENABLED
+              value: "true"
+            - name: SPRING_CONFIG_CLOUD_CONFIG_URI
+              value: http://catalog-config-server:8888
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://polar-postgres:5432/polardb_catalog
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-service
+  labels:
+    app: catalog-service
+spec:
+    type: NodePort
+    selector:
+        app: catalog-service
+    ports:
+        - protocol: TCP
+          port: 9001
+          targetPort: 9001
+
